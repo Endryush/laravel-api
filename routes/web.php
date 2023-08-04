@@ -1,18 +1,13 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
+Route::get('/users', function () {
+   try {
+      $users = DB::connection('mongodb')->collection('users')->get();
 
-Route::get('/', function () {
-    return view('welcome');
+      return response()->json($users, 200);
+   } catch (\Throwable $th) {
+    return response()->json($th ,500);
+   }
 });
